@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./userDefault.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        EZBUY
+    </ui:define>
+
+    <ui:define name="content">
+        
+        <h:graphicImage value="/resources/saleorder.png" style="margin-left:320px" height="156px" width="410px" />  
+        
+        <p:dataTable 
+            id="dt"
+            var="order"
+            value="#{helperManagedBean.allSaleOrders}"
+            resizableColumns="true"
+            emptyMessage="No order found with given criteria">
+            
+
+            <p:column headerText="Order ID">
+                <h:outputText value="#{order.id}"/>
+            </p:column>
+            <p:column headerText="Ordered Item">
+                <h:outputText value="#{order.item.itemName}"/>
+            </p:column>
+            <p:column headerText="Buyer">
+                <h:outputText value="#{order.buyer.username}"/>
+            </p:column>
+            <p:column headerText="Price($)" style="width:55px">
+                <h:outputText value="#{order.price}"/>
+            </p:column>
+            <p:column headerText="Current Order Status">
+                <h:outputText value="Payment Confirmed" rendered="#{order.orderStatus == 1}"/>
+                <h:outputText value="Cancelled" rendered="#{order.orderStatus == 2}"/>
+                <h:outputText value="Shipped" rendered="#{order.orderStatus == 3}"/>
+                <h:outputText value="Delivered" rendered="#{order.orderStatus == 4}"/>
+            </p:column>
+            <p:column  headerText="New Order Status">
+                <h:form>
+                    <p:selectOneMenu id ="orderStatus" value="#{helperManagedBean.newOrderStatus}" style="width:80px">
+                        <f:selectItem itemLabel = "Payment Confirmed" itemValue = "1"/>
+                        <f:selectItem itemLabel = "Cancelled" itemValue = "2"/>
+                        <f:selectItem itemLabel = "Shipped" itemValue = "3"/>
+                        <f:selectItem itemLabel = "Delivered" itemValue = "4"/>
+                    </p:selectOneMenu>
+
+                    <p:commandButton icon="fa fa-fw fa-edit" value="Update"
+                                     actionListener="#{helperManagedBean.updateSaleOrder(order.id)}"
+                                     update=":dt"/>
+                </h:form>
+
+            </p:column>
+            <!--TODO: ADD IN CHANGING OF CATEGORY, AND IF DELIVERED, ADD FEEDBACK-->
+
+
+        </p:dataTable>
+    </ui:define>
+
+</ui:composition>

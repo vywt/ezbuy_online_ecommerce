@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./userDefault.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        EZBUY
+    </ui:define>
+
+    <ui:define name="content">
+        <h:graphicImage value="/resources/listings.png" style="margin-left:320px" height="156px" width="410px" />  
+           <h:form id="form">
+                    <p:growl id="growl" showDetail="true" sticky="true" /> 
+                    <p:dataTable var="item"
+                                 value="#{helperManagedBean.sellerList}"
+                                 resizableColumns="true"
+                                 emptyMessage="No item found with given criteria">
+
+                        <f:facet name="header">
+                            <p:outputPanel style="text-align: right;">
+                                <h:outputText value="Search: " />
+                                <p:inputText placeholder="Enter name of product" value="#{helperManagedBean.searchString}">
+                                    <p:ajax event="keyup" update=":form" listener="#{helperManagedBean.handleSearch}" />
+                                </p:inputText>
+                            </p:outputPanel>
+                        </f:facet>
+                        
+                        <p:column headerText="ID">
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column headerText="Name">
+                            <h:outputText value="#{item.itemName}"/>
+                        </p:column>
+                        <p:column headerText="Description">
+                            <h:outputText value="#{item.itemDescription}"/>
+                        </p:column>
+                        <p:column headerText="Price">
+                            <h:outputText value="#{item.price}"/>
+                        </p:column>
+                        <p:column headerText="Quantity Remaining">
+                            <h:outputText value="#{item.quantityRemaining}"/>
+                        </p:column>
+                        <p:column headerText="Category">
+                            <h:outputText value="Toys" rendered="#{item.category == 1}"/>
+                            <h:outputText value="Books" rendered="#{item.category == 2}"/>
+                            <h:outputText value="Electronics" rendered="#{item.category == 3}"/>
+                        </p:column>
+
+                        <p:column headerText="Actions">            
+                            <p:commandButton icon="fa fa-fw fa-remove" id="delete" update="form" actionListener="#{helperManagedBean.deleteItem(item.id)}" />
+                            <p:button icon="fa fa-fw fa-edit" title="Edit" outcome="editListing">
+                            <f:param name="itemId" value="#{item.id}" />
+                            </p:button>
+                        </p:column>
+                        
+                        
+                    </p:dataTable>
+                </h:form>
+        
+    </ui:define>
+
+</ui:composition>

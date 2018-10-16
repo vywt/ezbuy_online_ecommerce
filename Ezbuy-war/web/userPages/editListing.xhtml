@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./userDefault.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        EZBUY
+    </ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <!-- to get the cId and bind it to a cId in managed bean -->
+            <f:viewParam name="itemId" value="#{helperManagedBean.editId}" />
+            <!-- load the selected customer -->
+            <f:event type="preRenderView" listener="#{helperManagedBean.loadItem(helperManagedBean.editId)}"/>
+        </f:metadata>
+        <h:form id="form" style="margin-top: 50px; margin-left: 300px; margin-right: 40px" >
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            Edit Item
+                        </f:facet>
+                        <h:outputLabel for="itemName">Item Name: </h:outputLabel>
+                        <h:panelGroup>
+                            <p:inputText id="itemName" value="#{helperManagedBean.eFormProductName}" 
+                                         required="true"
+                                         requiredMessage="Item Name is required"/>
+                            <p:message for="itemName" />
+                        </h:panelGroup>
+                        
+                         <h:outputLabel for="itemDescription">Item Description: </h:outputLabel>
+                        <h:panelGroup>
+                            <p:inputText id="itemDescription" value="#{helperManagedBean.eFormDescription}" 
+                                         required="true"
+                                         requiredMessage="Item Description is required"/>
+                            <p:message for="itemDescription" />
+                        </h:panelGroup>
+                       
+                        <h:outputLabel for="itemQuantity">Item Quantity: </h:outputLabel>
+                        <h:panelGroup>
+                            <p:inputText id="itemQuantity" value="#{helperManagedBean.eQuantity}" 
+                                         required="true"
+                                         requiredMessage="Item Quantity is required"/>
+                            <p:message for="itemQuantity" />
+                        </h:panelGroup>
+                        
+                        <h:outputLabel for="itemPrice">Item Price: </h:outputLabel>
+                        <h:panelGroup>
+                            <p:inputText id="itemPrice" value="#{helperManagedBean.ePrice}" 
+                                         required="true"
+                                         requiredMessage="Item Price is required"/>
+                            <p:message for="itemPrice" />
+                        </h:panelGroup>
+                        
+                        <h:outputLabel for="itemCategory">Item Category: </h:outputLabel>
+                        <h:panelGroup>
+                            <p:selectOneMenu id ="itemCategory" value="#{helperManagedBean.eCategory}" style="width:125px">
+                                <f:selectItem itemLabel = "Toy" itemValue = "1"/>
+                                <f:selectItem itemLabel = "Books" itemValue = "2"/>
+                                <f:selectItem itemLabel = "Electronics" itemValue = "3"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        
+                        <h:outputLabel for="itemAvailability">Item Availability: </h:outputLabel>
+                        <h:panelGroup>
+                            <p:selectOneMenu id ="itemAvailability" value="#{helperManagedBean.eAvailability}" style="width:125px">
+                                <f:selectItem itemLabel = "Available" itemValue = "1"/>
+                                <f:selectItem itemLabel = "Not Available" itemValue = "0"/>
+                            </p:selectOneMenu>
+                        </h:panelGroup>
+                        
+                      
+                    </p:panelGrid>
+                    <br />
+                    <p:commandButton value="Edit"
+                                     actionListener="#{helperManagedBean.editItem(helperManagedBean.editId)}"
+                                     action="index.xhtml?faces-redirect=true"
+                                     update=":form"/>
+                </h:form>
+    </ui:define>
+
+</ui:composition>
